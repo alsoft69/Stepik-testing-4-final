@@ -23,7 +23,7 @@ def pytest_addoption(parser):
                       help='Choose language "ru", "en", etc') # выбор языка
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def browser(request):
     user_language = request.config.getoption('language')
     browser_name = request.config.getoption("browser_name")
@@ -33,6 +33,7 @@ def browser(request):
     if browser_name == "chrome":
         print("\nstart chrome browser for test..")
         opt = Options()
+        opt.add_argument('--log-level=3')
         opt.add_experimental_option(
             'prefs', {'intl.accept_languages': user_language}) # передача параметра
         browser = webdriver.Chrome(options=opt)
